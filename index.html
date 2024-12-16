@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notas - Monitoramento</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="overall" id="overall">
+        <center>
+            <div id="forms-left">
+                <h3>Notas automáticas</h3>
+                <form id="consulta-form">
+                    <table style="line-height: 30px;">
+                        <tr>
+                            <td><label for="nomeCliente">Nome do cliente:</label></td>
+                            <td>
+                                <input required type="text" name="nomeCliente" id="nomeCliente" autocomplete="off"
+                                    placeholder="Somente primeiro nome" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="tipoProcesso">Tipo de processo:</label>
+                            </td>
+                            <td>
+                                <select name="tipoProcesso" id="tipoProcesso" onchange="mudarForms(this)">
+                                    <option value="selecione">Selecione</option>
+                                    <option value="filhos">Filhos</option>
+                                    <option value="netos">Netos</option>
+                                    <option value="matrimonio">Matrimônio</option>
+                                    <option value="transcricao">Transcrição</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="chave">Senha de Acesso:</label>
+                            </td>
+                            <td>
+                                <input type="text" id="chave" name="chave" autocomplete="off" required />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <button type="submit" id="submit">Consultar</button>
+                            </td>
+                        </tr>
+                    </table>
+
+            </div>
+
+            <div id="result-right">
+                <div id="output">
+                    <h3>Resultado da Consulta:</h3>
+                    <textarea id="resultado" rows="10" cols="50" readonly></textarea>
+                    <div id="botoes">
+                        <button type="button" onclick="copyToClipboard()" id="copy-button">Copiar</button>
+                        <button type="button" id="reset">Limpar</button>
+                    </div>
+                </div>
+            </div>
+            </form>
+        </center>
+    </div>
+    <script>        
+        const form = document.getElementById('consulta-form');
+        const resultado = document.getElementById('resultado');
+        const formsLeft = document.getElementById("forms-left");
+        const resultRight = document.getElementById("result-right");
+        const resetButton = document.getElementById("reset");
+
+        const lowercaseExceptions = new Set([
+            "de", "da", "do", "e", "em", "a", "as", "os", "para", "com", "dos", "das"
+        ]);
+
+        const capitalizeWords = (string) =>
+            string
+                .toLowerCase()
+                .split(" ")
+                .map((word, index, arr) => {
+                    if (
+                        lowercaseExceptions.has(word) &&
+                        index !== 0 &&
+                        index !== arr.length - 1
+                    ) {
+                        return word;
+                    } else {
+                        return word.charAt(0).toUpperCase() + word.slice(1);
+                    }
+                })
+                .join(" ");
+
+        function copyToClipboard() {
+            const content = resultado.value;
+            navigator.clipboard.writeText(content).then(
+                function () {
+                    console.log("Conteúdo copiado para a área de transferência!");
+                },
+                function (err) {
+                    console.error("Erro ao copiar: ", err);
+                }
+            );
+        }
+
+        resetButton.addEventListener("click", () => {
+            resultado.value = "";
+            formsLeft.style.transform = "translateY(0)";
+            resultRight.style.transform = "translateY(100%)";
+        });
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const chave = document.getElementById('chave').value;
+            const nomeCliente = document.getElementById('nomeCliente').value;
+            const nomeClienteOutput = capitalizeWords(nomeCliente);
+            const tipoProcesso = document.getElementById('tipoProcesso').value;
+
+            formsLeft.style.transform = "translateY(-100%)";
+            resultRight.style.transform = "translateY(0)";
+
+            try {
+                const response = await fetch('http://localhost:3000/consultar', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ chave }),
+                });
+
+                const data = await response.json();
+
+                let textContent = '';
+                const etapa = data.status;
+                data.nome = capitalizeWords(data.nome || nomeClienteOutput);
+
+                if (etapa === "concluido") {
+                    textContent = `Olá, ${nomeClienteOutput}!
+
+Monitoramento do processo de ${tipoProcesso === "filhos"
+                            ? "filho de"
+                            : tipoProcesso === "netos"
+                                ? "neto de"
+                                : "Aquisição por Casamento de"
+                        } ${data.nome}:
+Conforme consultado no portal da Justiça portuguesa na data de hoje, o processo ${data.numeroProcesso || 'N/A'} está concluído.
+Parabéns! O seu pedido de nacionalidade foi aprovado. Após deferimento, a emissão do assento de nascimento pode levar de 90 a 180 dias.
+Continuaremos o monitoramento e compartilharemos as atualizações.
+
+Você também pode acompanhar pelos acessos abaixo:
+https://meu.registo.justica.gov.pt/Pedidos/Consultar-estado-do-processo-de-nacionalidade
+Senha de acesso: ${chave}
+Qualquer dúvida, estamos à disposição.`;
+                } else {
+                    let avgTime = tipoProcesso === "filhos" ? "18 meses" : "24 a 36 meses";
+                    textContent = `Olá, ${nomeClienteOutput}!
+
+Monitoramento do processo de ${tipoProcesso === "filhos"
+                            ? "filho de"
+                            : tipoProcesso === "netos"
+                                ? "neto de"
+                                : "Aquisição por Casamento de"
+                        } ${data.nome}:
+Conforme consultado no portal da Justiça portuguesa na data de hoje, o processo ${data.numeroProcesso || 'N/A'} está ${data.status === "analise"
+                            ? "na etapa de análise"
+                            : data.status === "decisao"
+                                ? "na etapa de decisão"
+                                : data.status === "submetido"
+                                    ? "submetido"
+                                    : "em fase de conclusão"
+                        }.
+A média de execução baseada na experiência de nossos especialistas é de ${avgTime}, a depender do bom funcionamento da instituição.
+Continuaremos o monitoramento e compartilharemos as atualizações.
+
+Você também pode acompanhar pelos acessos abaixo:
+https://meu.registo.justica.gov.pt/Pedidos/Consultar-estado-do-processo-de-nacionalidade
+Senha de acesso: ${chave}
+
+Ressaltamos que, devido a fase inicial da nova plataforma, o status do processo pode ser alterado a qualquer momento. Continuamos a monitorar o andamento e informaremos assim que houver qualquer atualização relevante. Qualquer dúvida, estamos à disposição.`;
+                }
+
+                resultado.value = textContent;
+            } catch (error) {
+                resultado.value = `Erro: ${error.message}`;
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,81 @@
+ body {
+   overflow-y: auto;
+   max-height: 100vh;
+   font-family: "Nunito", sans-serif;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   height: 100vh;
+ }
+
+ .overall {
+   position: relative;
+   width: 50%;
+   height: 60%;
+   border: 1px solid #ccc;
+   overflow: hidden;
+ }
+
+ #forms-left,
+ #result-right {
+   position: absolute;
+   width: 100%;
+   height: 100%;
+   top: 0;
+   left: 0;
+   transition: transform 0.3s ease-in-out;
+ }
+
+ #forms-left {
+   z-index: 2;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+ }
+
+ select {
+   width: 100%;
+ }
+
+ #submit {
+   width: 100%;
+   background-color: black;
+   color: white;
+   border-radius: 5px;
+ }
+
+ #result-right {
+   padding-top: 50px;
+   z-index: 1;
+   transform: translateY(100%);
+   /* width: 80%; */
+ }
+
+ #copy-button:active {
+  background-color: white;
+  color: black
+ }
+
+textarea::-webkit-scrollbar { 
+  display: none;  /* Safari and Chrome */
+}
+
+ textarea {
+   width: 70%;
+   resize: none;
+   border: none;
+   -ms-overflow-style: none;  /* Internet Explorer 10+ */
+   scrollbar-width: none;  /* Firefox */
+ }
+
+ #botoes button {
+   background-color: black;
+   color: white;
+   border-radius: 5px;
+   cursor: pointer;
+ }
+
+ #resetPosition {
+   display: none;
+ }
