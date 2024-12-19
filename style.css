@@ -63,6 +63,7 @@ textarea::-webkit-scrollbar {
 
  textarea {
    width: 70%;
+   height: auto;
    resize: none;
    border: none;
    -ms-overflow-style: none;  /* Internet Explorer 10+ */

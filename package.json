@@ -14,7 +14,7 @@
     "cors": "^2.8.5",
     "express": "^4.21.2",
     "mysql2": "^3.11.5",
-    "puppeteer": "^23.10.4",
+    "puppeteer": "^23.11.1",
     "puppeteer-core": "^23.10.4",
     "sweetalert": "^2.1.2"
   },

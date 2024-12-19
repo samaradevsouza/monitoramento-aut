@@ -25,10 +25,10 @@ app.post('/consultar', async (req, res) => {
         );
         await page.setViewport({
             width: 900,
-            height: 550,
+            height: 580,
           });
           
-        await page.waitForSelector('#Input_TextVar', { timeout: 10000 });
+        await page.waitForSelector('#Input_TextVar', { timeout: 30000 });
 
         await page.type('#Input_TextVar', chave, { delay: 100 });
 
@@ -83,7 +83,7 @@ app.post('/consultar', async (req, res) => {
         await page.screenshot({
             path: 'monitoramento.png',
             width: 900,
-            height: 500
+            height: 450
         });
 
         console.log('Screenshot salva como "monitoramento.png".');

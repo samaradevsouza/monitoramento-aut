@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" href="icon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Notas - Monitoramento</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,6 +14,7 @@
 </head>
 
 <body>
+    <header><center><img src="icon.ico" alt="icon" style="height: 15vh;"></center></header>
     <div class="overall" id="overall">
         <center>
             <div id="forms-left">
@@ -22,7 +24,7 @@
                         <tr>
                             <td><label for="nomeCliente">Nome do cliente:</label></td>
                             <td>
-                                <input required type="text" name="nomeCliente" id="nomeCliente" autocomplete="off"
+                                <input class="input" required type="text" name="nomeCliente" id="nomeCliente" autocomplete="off"
                                     placeholder="Somente primeiro nome" />
                             </td>
                         </tr>
@@ -45,7 +47,7 @@
                                 <label for="chave">Senha de Acesso:</label>
                             </td>
                             <td>
-                                <input type="text" id="chave" name="chave" autocomplete="off" required />
+                                <input type="text"  class="input"  id="chave" name="chave" autocomplete="off" required />
                             </td>
                         </tr>
                         <tr>
@@ -63,19 +65,20 @@
                     <textarea id="resultado" rows="10" cols="50" readonly></textarea>
                     <div id="botoes">
                         <button type="button" onclick="copyToClipboard()" id="copy-button">Copiar</button>
-                        <button type="button" id="reset">Limpar</button>
+                        <button type="reset" id="reset">Limpar</button>
                     </div>
                 </div>
             </div>
             </form>
         </center>
     </div>
-    <script>        
+    <script>
         const form = document.getElementById('consulta-form');
         const resultado = document.getElementById('resultado');
         const formsLeft = document.getElementById("forms-left");
         const resultRight = document.getElementById("result-right");
         const resetButton = document.getElementById("reset");
+
 
         const lowercaseExceptions = new Set([
             "de", "da", "do", "e", "em", "a", "as", "os", "para", "com", "dos", "das"
