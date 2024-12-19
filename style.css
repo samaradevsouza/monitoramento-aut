@@ -7,6 +7,8 @@
    justify-content: center;
    align-items: center;
    height: 100vh;
+   background-color: #eeeeee;
+   color: #424242;
  }
 
  .overall {
@@ -19,6 +21,7 @@
 
  #forms-left,
  #result-right {
+  background-color: #f3f3f3;
    position: absolute;
    width: 100%;
    height: 100%;
@@ -40,9 +43,12 @@
 
  #submit {
    width: 100%;
-   background-color: black;
-   color: white;
+   background-color: #424242;
+   color: #f3f3f3;
    border-radius: 5px;
+   padding: 3px;
+   border: none;
+   font-weight: bold;
  }
 
  #result-right {
@@ -53,8 +59,8 @@
  }
 
  #copy-button:active {
-  background-color: white;
-  color: black
+  background-color: #f3f3f3;
+  color: #424242
  }
 
 textarea::-webkit-scrollbar { 
@@ -65,16 +71,18 @@ textarea::-webkit-scrollbar {
    width: 70%;
    height: auto;
    resize: none;
-   border: none;
    -ms-overflow-style: none;  /* Internet Explorer 10+ */
    scrollbar-width: none;  /* Firefox */
  }
 
  #botoes button {
-   background-color: black;
-   color: white;
+   background-color: #424242;
+   color: #f3f3f3;
    border-radius: 5px;
    cursor: pointer;
+   border: none;
+   font-weight: bold;
+   padding: 3px;
  }
 
  #resetPosition {
