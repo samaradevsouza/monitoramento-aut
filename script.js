@@ -76,8 +76,24 @@ app.post('/consultar', async (req, res) => {
                 status = 'Nenhuma fase identificada';
         }
         console.log('-- Esperando os elementos necessários carregarem...');
-        await page.waitForSelector("#b11-\\$b1 > a > img", { visible: true, timeout: 5000 });
-        await page.waitForSelector("#b13-b3-b2-Icon", { visible: true, timeout: 5000 });
+        try {
+            const firstElement = await page.waitForSelector(
+                "#b13-b3-IconInfoTooltip > div > div, #b11-\\$b1 > a > img, #b13-b3-b2-Icon", 
+                { visible: true, timeout: 5000 }
+            );
+            if (firstElement) {
+                console.log("OK");
+        
+                await page.evaluate((el) => {
+                    console.log("Element details:", el);
+                }, firstElement);
+            } else {
+                console.log("No elements found within the timeout period.");
+            }
+        } catch (error) {
+            console.error("Error waiting for elements:", error.message);
+        }
+        
         
         console.log('-- Capturando a screenshot...');
         await page.screenshot({
