@@ -1,7 +1,8 @@
-const express = require('express');
-const cors = require('cors');
-const bodyParser = require('body-parser');
-const puppeteer = require('puppeteer');
+import express from 'express';
+import cors from 'cors';
+import bodyParser from 'body-parser';
+import puppeteer from 'puppeteer';
+import {setTimeout} from "node:timers/promises";
 
 const app = express();
 
@@ -21,7 +22,7 @@ app.post('/consultar', async (req, res) => {
 
         await page.goto(
             'https://meu.registo.justica.gov.pt/Pedidos/Consultar-estado-do-processo-de-nacionalidade',
-            { waitUntil: 'domcontentloaded' }
+            { waitUntil: 'networkidle0' }
         );
         await page.setViewport({
             width: 900,
@@ -76,23 +77,7 @@ app.post('/consultar', async (req, res) => {
                 status = 'Nenhuma fase identificada';
         }
         console.log('-- Esperando os elementos necessários carregarem...');
-        try {
-            const firstElement = await page.waitForSelector(
-                "#b13-b3-IconInfoTooltip > div > div, #b11-\\$b1 > a > img, #b13-b3-b2-Icon", 
-                { visible: true, timeout: 5000 }
-            );
-            if (firstElement) {
-                console.log("OK");
-        
-                await page.evaluate((el) => {
-                    console.log("Element details:", el);
-                }, firstElement);
-            } else {
-                console.log("No elements found within the timeout period.");
-            }
-        } catch (error) {
-            console.error("Error waiting for elements:", error.message);
-        }
+        await setTimeout(1500);
         
         
         console.log('-- Capturando a screenshot...');
@@ -102,7 +87,7 @@ app.post('/consultar', async (req, res) => {
             height: 450
         });
 
-        console.log('Screenshot salva como "monitoramento.png".');
+        console.log('Screenshot salva como "monitoramento.png".\n---FIM DA PESQUISA---\n');
 
         await browser.close();
 
