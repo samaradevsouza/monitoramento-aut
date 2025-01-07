@@ -21,7 +21,7 @@
 
  #forms-left,
  #result-right {
-  background-color: #f3f3f3;
+   background-color: #f3f3f3;
    position: absolute;
    width: 100%;
    height: 100%;
@@ -59,23 +59,26 @@
  }
 
  #copy-button:active {
-  background-color: #f3f3f3;
-  color: #424242
+   background-color: #f3f3f3;
+   color: #424242
  }
 
-textarea::-webkit-scrollbar { 
-  display: none;  /* Safari and Chrome */
-}
+ textarea::-webkit-scrollbar {
+   display: none;
+   /* Safari and Chrome */
+ }
 
  textarea {
    width: 70%;
    height: auto;
    resize: none;
-   -ms-overflow-style: none;  /* Internet Explorer 10+ */
-   scrollbar-width: none;  /* Firefox */
+   -ms-overflow-style: none;
+   /* Internet Explorer 10+ */
+   scrollbar-width: none;
+   /* Firefox */
  }
 
- #botoes button {
+ #botoes .background-button {
    background-color: #424242;
    color: #f3f3f3;
    border-radius: 5px;
@@ -83,6 +86,16 @@ textarea::-webkit-scrollbar {
    border: none;
    font-weight: bold;
    padding: 3px;
+ }
+
+ #button-up-arrow {
+   border: none;
+   margin-top: 10vh;
+   cursor: pointer;
+ }
+
+ #up-arrow {
+   width: 1vw;
  }
 
  #resetPosition {
