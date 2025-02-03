@@ -14,7 +14,10 @@
 </head>
 
 <body>
-    <header><center><img src="./imgs/icon.ico" alt="icon" style="height: 15vh;"></center></header>
+    <header>
+        
+        <center><img src="./imgs/icon.ico" alt="icon" style="height: 15vh;"></center>
+    </header>
     <div class="overall" id="overall">
         <center>
             <div id="forms-left">
@@ -24,8 +27,8 @@
                         <tr>
                             <td><label for="nomeCliente">Nome do cliente:</label></td>
                             <td>
-                                <input class="input" required type="text" name="nomeCliente" id="nomeCliente" autocomplete="off"
-                                    placeholder="Somente primeiro nome" />
+                                <input class="input" required type="text" name="nomeCliente" id="nomeCliente"
+                                    autocomplete="off" placeholder="Somente primeiro nome" />
                             </td>
                         </tr>
                         <tr>
@@ -46,12 +49,12 @@
                                 <label for="chave">Senha de Acesso:</label>
                             </td>
                             <td>
-                                <input type="text"  class="input"  id="chave" name="chave" autocomplete="off" required />
+                                <input type="text" class="input" id="chave" name="chave" autocomplete="off" required />
                             </td>
                         </tr>
                         <tr>
                             <td colspan="2">
-                                <button type="submit" id="submit">Consultar</button>
+                                <button type="submit" id="submit" onclick="countdown()">Consultar</button>
                             </td>
                         </tr>
                     </table>
@@ -59,14 +62,18 @@
             </div>
 
             <div id="result-right">
+                <div id="countdown"></div>
                 <div id="output">
+                    
                     <h3>Resultado da Consulta:</h3>
                     <textarea id="resultado" rows="10" cols="50" readonly></textarea>
                     <div id="botoes">
-                        <button type="button" onclick="copyToClipboard()" id="copy-button" class="background-button">Copiar</button>
+                        <button type="button" onclick="copyToClipboard()" id="copy-button"
+                            class="background-button">Copiar</button>
                         <button type="reset" id="reset" class="background-button">Limpar</button>
                     </div>
-                    <center><button type="button" id="button-up-arrow"><img src="./imgs/up-arrow.svg" alt="voltar" id="up-arrow"></button></center>
+                    <center><button type="button" id="button-up-arrow"><img src="./imgs/up-arrow.svg" alt="voltar"
+                                id="up-arrow"></button></center>
                 </div>
             </div>
             </form>
@@ -80,6 +87,19 @@
         const resetButton = document.getElementById("reset");
         const upArrow = document.getElementById("button-up-arrow");
 
+
+function countdown () {
+    var timeleft = 30;
+        var Timer = setInterval(function () {
+            if (timeleft <= 0) {
+                clearInterval(Timer);
+                document.getElementById("countdown").innerHTML = "Acabou o tempo :)";
+            } else {
+                document.getElementById("countdown").innerHTML = timeleft;
+            }
+            timeleft -= 1;
+        }, 3000);
+}
 
         const lowercaseExceptions = new Set([
             "de", "da", "do", "e", "em", "a", "as", "os", "para", "com", "dos", "das"
@@ -123,6 +143,7 @@
         upArrow.addEventListener("click", () => {
             formsLeft.style.transform = "translateY(0)";
             resultRight.style.transform = "translateY(100%)";
+            resultado.value = "";
         })
 
         form.addEventListener('submit', async (event) => {

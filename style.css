@@ -58,7 +58,11 @@
    /* width: 80%; */
  }
 
- #copy-button:active {
+ #copy-button {
+  margin-right: 10px;
+ }
+
+#copy-button:active {
    background-color: #f3f3f3;
    color: #424242
  }
@@ -78,7 +82,7 @@
    /* Firefox */
  }
 
- #botoes .background-button {
+.background-button {
    background-color: #424242;
    color: #f3f3f3;
    border-radius: 5px;
@@ -100,4 +104,10 @@
 
  #resetPosition {
    display: none;
+ }
+
+ @media (max-width: 940px) {
+  #up-arrow {
+    width: 2vw;
+  }
  }
