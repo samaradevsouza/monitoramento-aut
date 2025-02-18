@@ -79,6 +79,9 @@
             </form>
         </center>
     </div>
+    <footer>
+        <a href="https://samaradevsouza.github.io/notas-monitoramento/">Notas manuais</a>
+    </footer>
     <script>
         const form = document.getElementById('consulta-form');
         const resultado = document.getElementById('resultado');
@@ -89,7 +92,7 @@
 
 
 function countdown () {
-    var timeleft = 30;
+    var timeleft = 45;
         var Timer = setInterval(function () {
             if (timeleft <= 0) {
                 clearInterval(Timer);
@@ -98,7 +101,7 @@ function countdown () {
                 document.getElementById("countdown").innerHTML = timeleft;
             }
             timeleft -= 1;
-        }, 3000);
+        }, 1000);
 }
 
         const lowercaseExceptions = new Set([
